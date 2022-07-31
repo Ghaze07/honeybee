@@ -1,20 +1,45 @@
 <template>
     <the-card>
         <div class="flex-1">
-            <h1 class="text-xl font-semibold text-neutral-600">Pending Tasks</h1>
+            <h1 class="text-xl font-semibold text-neutral-600">Pending Tasks ({{tasks.length}})</h1>
         </div>
-        <div class="flex items-center mt-6">
+        <div class="mt-1 mb-1">
+            <input v-model="search" id="search" name="search" type="text" autocomplete="search" placeholder="search task" class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-800 transition duration-500 ease-in-out transform border border-orange-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300">
+        </div>
+        <div class="flex items-center">
             <!-- tasks list here -->
+            <task-list :tasks="tasks" :show-buttons="true" @complete="markAsComplete" @remove="removeTask"></task-list>
         </div>
     </the-card>
 </template>
 <script>
 import TheCard from '@/components/TheCard.vue'
+import TaskList from '@/components/Task/TaskList.vue'
 
 export default {
     name: 'PendingTasks',
     components: {
-        TheCard
+        TheCard,
+        TaskList
+    },
+    props: {
+        tasks: {
+            type: Array,
+            required: true,
+        },
+    },
+    data() {
+        return {
+            search: '',
+        }
+    },
+    methods: {
+        markAsComplete(task) {
+            this.$emit('complete', task)
+        },
+        removeTask(task) {
+            this.$emit('remove', task)
+        }
     }
 }
 </script>
