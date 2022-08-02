@@ -8,13 +8,14 @@
         </div>
         <div class="flex items-center">
             <!-- tasks list here -->
-            <task-list :tasks="tasks" :show-buttons="true" @complete="markAsComplete" @remove="removeTask"></task-list>
+            <task-list :tasks="filteredTasks" :show-buttons="true" @complete="markAsComplete" @remove="removeTask"></task-list>
         </div>
     </the-card>
 </template>
 <script>
 import TheCard from '@/components/TheCard.vue'
 import TaskList from '@/components/Task/TaskList.vue'
+import tasksMixins from '@/mixins/tasks.js'
 
 export default {
     name: 'PendingTasks',
@@ -22,6 +23,7 @@ export default {
         TheCard,
         TaskList
     },
+    mixins: [tasksMixins],
     props: {
         tasks: {
             type: Array,
